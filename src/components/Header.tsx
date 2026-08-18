@@ -26,14 +26,11 @@ export const Header: React.FC<HeaderProps> = ({
           className="flex items-center gap-3 hover:opacity-85 transition-opacity duration-200 cursor-pointer group"
           id="brand-logo"
         >
-          <div className="w-8 h-8 rounded bg-[#b8c4ff]/10 flex items-center justify-center border border-[#b8c4ff]/20 text-[#b8c4ff] group-hover:scale-105 transition-transform">
-            <span className="material-symbols-outlined text-[20px] text-[#b8c4ff]" style={{ fontVariationSettings: "'FILL' 1" }}>
-              database
-            </span>
-          </div>
-          <span className="text-[20px] font-extrabold tracking-tight text-[#e5e2e1]">
-            SteamAlive
-          </span>
+          <img
+            src="/logo.png"
+            alt="SteamAlive"
+            className="h-16 w-auto group-hover:scale-105 transition-transform"
+          />
         </div>
 
         {/* Desktop Navigation Cluster */}
