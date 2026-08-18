@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Game, LibraryItem, UserPcSpecs, Screenshot } from '../types';
 import { ScreenshotModal } from './ScreenshotModal';
+import { DownloadModal } from './DownloadModal';
 import { fetchGameScreenshots, fetchGameTrailers } from '../api/rawg';
-
-const slugify = (name: string) =>
-  name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
 
 interface GameDetailViewProps {
   game: Game;
@@ -33,6 +28,7 @@ export const GameDetailView: React.FC<GameDetailViewProps> = ({
   const [trailers, setTrailers] = useState<{ name: string; preview: string; videoUrl: string }[]>([]);
   const [loadingMedia, setLoadingMedia] = useState(false);
   const [showSpecChecker, setShowSpecChecker] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const isInLibrary = !!libraryItem;
 
@@ -175,16 +171,14 @@ export const GameDetailView: React.FC<GameDetailViewProps> = ({
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href={`https://steamrip.com/${slugify(game.title)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#b8c4ff] text-[#002585] px-8 py-3.5 rounded font-mono-data text-[13px] font-bold hover:bg-[#6b89ff] hover:text-[#001f75] transition-all duration-200 flex items-center gap-2 shadow-md"
+            <button
+              onClick={() => setShowDownloadModal(true)}
+              className="bg-[#b8c4ff] text-[#002585] px-8 py-3.5 rounded font-mono-data text-[13px] font-bold hover:bg-[#6b89ff] hover:text-[#001f75] transition-all duration-200 flex items-center gap-2 shadow-md cursor-pointer"
               id="download-btn"
             >
               <span>Download Now</span>
               <span className="material-symbols-outlined text-[16px]">download</span>
-            </a>
+            </button>
 
             <div className="relative">
               <div className="inline-flex rounded overflow-hidden border border-[#444654]/50">
@@ -487,6 +481,13 @@ export const GameDetailView: React.FC<GameDetailViewProps> = ({
           currentIndex={selectedScreenshotIndex}
           onSelect={(idx) => setSelectedScreenshotIndex(idx)}
           onClose={() => setSelectedScreenshotIndex(null)}
+        />
+      )}
+
+      {showDownloadModal && (
+        <DownloadModal
+          gameTitle={game.title}
+          onClose={() => setShowDownloadModal(false)}
         />
       )}
     </main>
